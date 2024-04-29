@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "855344380617",
+    "project_id": "todo-crdr-freylis",
+    "storage_bucket": "todo-crdr-freylis.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855344380617:android:cfc4ee77386db0816a6b18",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB96IWQKBz_NVCbddIuDNKNfKOv8RuCTUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855344380617:android:edb18a51e1300b4f6a6b18",
+        "android_client_info": {
+          "package_name": "com.example.todo_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB96IWQKBz_NVCbddIuDNKNfKOv8RuCTUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

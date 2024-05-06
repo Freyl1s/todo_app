@@ -1,15 +1,14 @@
+import 'dart:html';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter/foundation.dart';
-
-import 'package:web_scraper/web_scraper.dart';
-//import 'package:html/dom.dart';
-//import 'package:html/parser.dart'; // Contains HTML parsers to generate a Document object.
 import 'package:http/http.dart';
+import 'package:html/dom.dart';
+//import 'package:html/parser.dart';
+//import 'package:web_scraper/web_scraper.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +19,7 @@ void main() async {
 
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   //debugPrint("Das ist ein Test");
@@ -52,6 +52,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwortController = TextEditingController();
+  
+}
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -114,14 +119,27 @@ class _MyHomePageState extends State<MyHomePage> {
               ElevatedButton(
                   style: ElevatedButton.styleFrom(minimumSize: Size(200, 50)),
                   onPressed: () async {
-                    final webScraper = WebScraper('https://webscraper.io');
-                    if (await webScraper
-                        .loadWebPage('/test-sites/e-commerce/allinone')) {
-                      List<Map<String, dynamic>> elements = webScraper
-                          .getElement('h1.title > a.caption', ['href']);
+                    
+                    print("Button gedrückt")
 
-                      print("Daten kommen von der Seite");
-                      print(elements);
+                   Future getWebsiteDate() async {
+                    final url = Uri.parse('https://www.hb9scbo.ch/de/rufzeichenliste.htm');
+                    final response = await http.get(url);
+                    dom.Document html = dom.Document.html(repsonse.body);
+
+                    final titles = html
+                    .querySelectorAll('#content > table')
+                    .map((element) => element.innerHtml.trim())
+                    .toList();
+
+                    print('Count: ${titles.length}');
+                    for (final title in titles) {
+                    debugPrint(titles);
+                    }
+
+
+                    print("Button Ende")
+                    
                     }
                   },
                   child: Text('Daten holen')),

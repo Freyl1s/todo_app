@@ -27,11 +27,21 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<List<String>> tableData = [];
+  List<List<String>> filteredData = [];
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     fetchData();
+    searchController.addListener(_filterData);
+  }
+
+  @override
+  void dispose() {
+    searchController.removeListener(_filterData);
+    searchController.dispose();
+    super.dispose();
   }
 
   Future<void> fetchData() async {
@@ -59,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
         setState(() {
           tableData = rows;
+          filteredData = rows;
         });
       } else {
         setState(() {
@@ -76,6 +87,15 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  void _filterData() {
+    String query = searchController.text.toLowerCase();
+    setState(() {
+      filteredData = tableData.where((row) {
+        return row.any((cell) => cell.toLowerCase().contains(query));
+      }).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,6 +106,17 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context, constraints) {
           return Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: searchController,
+                  decoration: InputDecoration(
+                    labelText: 'Search',
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(Icons.search),
+                  ),
+                ),
+              ),
               Row(
                 children: const [
                   Expanded(
@@ -104,14 +135,35 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: tableData.length,
+                  itemCount: filteredData.length,
                   itemBuilder: (context, index) {
-                    var row = tableData[index];
+                    var row = filteredData[index];
                     return Row(
                       children: [
-                        Expanded(flex: 1, child: Text(row[0])), // Column 1
-                        Expanded(flex: 1, child: Text(row[3])), // Column 4
-                        Expanded(flex: 1, child: Text(row[4])), // Column 5
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            row[0], // Column 1
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            row[3], // Column 4
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            row[4], // Column 5
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ),
                       ],
                     );
                   },
